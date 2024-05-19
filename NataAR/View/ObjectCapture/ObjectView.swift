@@ -1,9 +1,9 @@
 /*
-See the LICENSE.txt file for this sample’s licensing information.
-
-Abstract:
-Top-level SwiftUI container view for the entire app.
-*/
+ See the LICENSE.txt file for this sample’s licensing information.
+ 
+ Abstract:
+ Top-level SwiftUI container view for the entire app.
+ */
 
 import RealityKit
 import SwiftUI
@@ -13,8 +13,8 @@ import os
 /// The root of the SwiftUI view graph.
 struct ObjectView: View {
     static let logger = Logger(subsystem: NataAR.subsystem,
-                                category: "ObjectView")
-
+                               category: "ObjectView")
+    
     @StateObject var appModel: AppDataModel = AppDataModel.instance
     
     @State private var showReconstructionView: Bool = false
@@ -22,7 +22,7 @@ struct ObjectView: View {
     private var showProgressView: Bool {
         appModel.state == .completed || appModel.state == .restart || appModel.state == .ready
     }
-
+    
     var body: some View {
         VStack {
             if appModel.state == .capturing {
@@ -64,7 +64,7 @@ struct ObjectView: View {
 
 private struct CircularProgressView: View {
     @Environment(\.colorScheme) private var colorScheme
-
+    
     var body: some View {
         VStack {
             Spacer()

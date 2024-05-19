@@ -11,5 +11,5 @@ import CoreData
 
 @objc(ObjectEntity)
 public class ObjectEntity: NSManagedObject {
-
+    
 }

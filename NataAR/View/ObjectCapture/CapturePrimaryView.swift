@@ -1,9 +1,9 @@
 /*
-See the LICENSE.txt file for this sample’s licensing information.
-
-Abstract:
-Top-level view for the object capture session that shows the info panel and other items during the session.
-*/
+ See the LICENSE.txt file for this sample’s licensing information.
+ 
+ Abstract:
+ Top-level view for the object capture session that shows the info panel and other items during the session.
+ */
 
 import Foundation
 import RealityKit
@@ -13,12 +13,12 @@ import SwiftUI
 struct CapturePrimaryView: View {
     @EnvironmentObject var appModel: AppDataModel
     var session: ObjectCaptureSession
-
+    
     // Pauses the scanning and shows tutorial pages. This sample passes it as
     // a binding to the two views so buttons can change the state.
     @State var showInfo: Bool = false
     @State private var showOnboardingView: Bool = false
-
+    
     var body: some View {
         ZStack {
             ObjectCaptureView(session: session,
@@ -42,7 +42,7 @@ struct CapturePrimaryView: View {
         })
         .task {
             for await userCompletedScanPass in session.userCompletedScanPassUpdates where userCompletedScanPass {
-                    appModel.setPreviewModelState(shown: true)
+                appModel.setPreviewModelState(shown: true)
             }
         }
         .onChange(of: appModel.showPreviewModel, {_, showPreviewModel in
@@ -61,7 +61,7 @@ struct CapturePrimaryView: View {
         })
         .id(session.id)
     }
-
+    
     private var shouldShowOverlayView: Bool {
         !showInfo && !appModel.showPreviewModel && !session.isPaused && session.cameraTracking == .normal
     }
@@ -74,14 +74,14 @@ private struct GradientBackground: View {
         endPoint: .bottom
     )
     private let frameHeight: CGFloat = 300
-
+    
     var body: some View {
         VStack {
             gradient
                 .frame(height: frameHeight)
-
+            
             Spacer()
-
+            
             gradient
                 .rotation3DEffect(Angle(degrees: 180), axis: (x: 1, y: 0, z: 0))
                 .frame(height: frameHeight)

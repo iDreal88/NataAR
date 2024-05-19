@@ -17,7 +17,7 @@ struct ContentView: View {
     @FetchRequest(sortDescriptors: []) private var assets: FetchedResults<Asset>
     
     // MARK: - Observed Objects
-    @ObservedObject var usdzURLModel = USDZURLModel(initialURL: Bundle.main.url(forResource: "fender", withExtension: "usdz")!)
+    @ObservedObject var usdzURLModel = USDZURLModel(initialURL: Bundle.main.url(forResource: "robot", withExtension: "usdz")!)
     @StateObject private var objectViewModel = ObjectViewModel()
     
     // MARK: - State Properties

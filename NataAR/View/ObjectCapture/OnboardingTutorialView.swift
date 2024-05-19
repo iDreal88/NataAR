@@ -1,9 +1,9 @@
 /*
-See the LICENSE.txt file for this sample’s licensing information.
-
-Abstract:
-The guidance view that shows the video tutorial or the point cloud on the review screen.
-*/
+ See the LICENSE.txt file for this sample’s licensing information.
+ 
+ Abstract:
+ The guidance view that shows the video tutorial or the point cloud on the review screen.
+ */
 
 import Foundation
 import RealityKit
@@ -16,7 +16,7 @@ struct OnboardingTutorialView: View {
     @EnvironmentObject var appModel: AppDataModel
     var session: ObjectCaptureSession
     @ObservedObject var onboardingStateMachine: OnboardingStateMachine
-
+    
     var body: some View {
         VStack {
             ZStack {
@@ -27,7 +27,7 @@ struct OnboardingTutorialView: View {
                     ObjectCapturePointCloudView(session: session)
                         .padding(30)
                 }
-
+                
                 VStack {
                     Spacer()
                     HStack {
@@ -43,7 +43,7 @@ struct OnboardingTutorialView: View {
                 }
             }
             .frame(maxHeight: .infinity)
-
+            
             VStack {
                 Text(title)
                     .font(.largeTitle)
@@ -53,7 +53,7 @@ struct OnboardingTutorialView: View {
                     .multilineTextAlignment(.center)
                     .padding(.bottom)
                     .frame(maxWidth: .infinity)
-
+                
                 Text(detailText)
                     .font(.body)
                     .multilineTextAlignment(.center)
@@ -63,33 +63,33 @@ struct OnboardingTutorialView: View {
             .frame(maxHeight: .infinity)
             .padding(.leading, UIDevice.current.userInterfaceIdiom == .pad ? 50 : 30)
             .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? 50 : 30)
-
+            
         }
     }
-
+    
     private var shouldShowTutorialInReview: Bool {
         switch onboardingStateMachine.currentState {
-            case .flipObject, .flipObjectASecondTime, .captureFromLowerAngle, .captureFromHigherAngle:
-                return true
-            default:
-                return false
+        case .flipObject, .flipObjectASecondTime, .captureFromLowerAngle, .captureFromHigherAngle:
+            return true
+        default:
+            return false
         }
     }
-
+    
     private let onboardingStateToTutorialNameMapOnIphone: [OnboardingState: String] = [
         .flipObject: "ScanPasses-iPhone-FixedHeight-2",
         .flipObjectASecondTime: "ScanPasses-iPhone-FixedHeight-3",
         .captureFromLowerAngle: "ScanPasses-iPhone-FixedHeight-unflippable-low",
         .captureFromHigherAngle: "ScanPasses-iPhone-FixedHeight-unflippable-high"
     ]
-
+    
     private let onboardingStateToTutorialNameMapOnIpad: [OnboardingState: String] = [
         .flipObject: "ScanPasses-iPad-FixedHeight-2",
         .flipObjectASecondTime: "ScanPasses-iPad-FixedHeight-3",
         .captureFromLowerAngle: "ScanPasses-iPad-FixedHeight-unflippable-low",
         .captureFromHigherAngle: "ScanPasses-iPad-FixedHeight-unflippable-high"
     ]
-
+    
     private var tutorialUrl: URL? {
         let videoName: String
         if UIDevice.current.userInterfaceIdiom == .pad {
@@ -99,7 +99,7 @@ struct OnboardingTutorialView: View {
         }
         return Bundle.main.url(forResource: videoName, withExtension: "mp4")
     }
-
+    
     private func getOrbitImageName(orbit: AppDataModel.Orbit) -> String? {
         guard let session = appModel.objectCaptureSession else { return nil }
         let orbitCompleted = session.userCompletedScanPass
@@ -107,7 +107,7 @@ struct OnboardingTutorialView: View {
         let orbitNotCompleteImage = orbit < appModel.orbit ? orbit.imageSelected : orbit.image
         return orbitCompleted ? orbitCompleteImage : orbitNotCompleteImage
     }
-
+    
     private let onboardingStateToTitleMap: [OnboardingState: String] = [
         .tooFewImages: LocalizedString.tooFewImagesTitle,
         .firstSegmentNeedsWork: LocalizedString.firstSegmentNeedsWorkTitle,
@@ -122,11 +122,11 @@ struct OnboardingTutorialView: View {
         .captureFromLowerAngle: LocalizedString.captureFromLowerAngleTitle,
         .captureFromHigherAngle: LocalizedString.captureFromHigherAngleTitle
     ]
-
+    
     private var title: String {
         onboardingStateToTitleMap[onboardingStateMachine.currentState] ?? ""
     }
-
+    
     private let onboardingStateTodetailTextMap: [OnboardingState: String] = [
         .tooFewImages: String(format: LocalizedString.tooFewImagesDetailText, AppDataModel.minNumImages),
         .firstSegmentNeedsWork: LocalizedString.firstSegmentNeedsWorkDetailText,
@@ -141,7 +141,7 @@ struct OnboardingTutorialView: View {
         .captureFromLowerAngle: LocalizedString.captureFromLowerAngleDetailText,
         .captureFromHigherAngle: LocalizedString.captureFromHigherAngleDetailText
     ]
-
+    
     private var detailText: String {
         onboardingStateTodetailTextMap[onboardingStateMachine.currentState] ?? ""
     }

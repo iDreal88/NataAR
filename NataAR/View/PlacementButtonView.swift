@@ -10,7 +10,7 @@ import SwiftUI
 struct PlacementButtonView: View {
     
     // MARK: - Properties
-
+    
     @Binding var isPlacementEnabled: Bool
     @Binding var selectedModel: Model?
     @Binding var modelConfirmedForPlacement: Model?
@@ -52,7 +52,7 @@ struct PlacementButtonView: View {
 // MARK: - Private
 
 private extension PlacementButtonView {
-
+    
     func resetPlacementParameters() {
         isPlacementEnabled = false
         selectedModel = nil

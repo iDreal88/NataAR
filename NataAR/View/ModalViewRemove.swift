@@ -97,28 +97,28 @@ struct ModalViewRemove: View {
             }
             .navigationBarTitle("Remove items")
             .navigationBarItems(trailing:
-                HStack {
-                    // Select/Deselect All button
-                    if(viewModel.isMultiSelectionActive) {
-                        Button(action: {
-                            viewModel.toggleSelectAll(assets: assets, importsObject: importsObject)
-                        }) {
-                            Text(viewModel.isSelectAll ? "Deselect All" : "Select All")
-                        }
-                    }
-                    
-                    // Multi-Selection Toggle button
+                                    HStack {
+                // Select/Deselect All button
+                if(viewModel.isMultiSelectionActive) {
                     Button(action: {
-                        viewModel.toggleMultiSelection(assets: assets, importsObject: importsObject)
+                        viewModel.toggleSelectAll(assets: assets, importsObject: importsObject)
                     }) {
-                        Text(viewModel.isMultiSelectionActive ? "Cancel" : "Select")
-                    }
-                    
-                    // Done button
-                    Button("Done") {
-                        isModalVisible = false
+                        Text(viewModel.isSelectAll ? "Deselect All" : "Select All")
                     }
                 }
+                
+                // Multi-Selection Toggle button
+                Button(action: {
+                    viewModel.toggleMultiSelection(assets: assets, importsObject: importsObject)
+                }) {
+                    Text(viewModel.isMultiSelectionActive ? "Cancel" : "Select")
+                }
+                
+                // Done button
+                Button("Done") {
+                    isModalVisible = false
+                }
+            }
             )
         }
     }

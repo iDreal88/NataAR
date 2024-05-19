@@ -1,9 +1,9 @@
 /*
-See the LICENSE.txt file for this sample’s licensing information.
-
-Abstract:
-A full-screen overlay UI with buttons that control the capture.
-*/
+ See the LICENSE.txt file for this sample’s licensing information.
+ 
+ Abstract:
+ A full-screen overlay UI with buttons that control the capture.
+ */
 
 import Foundation
 import RealityKit
@@ -13,15 +13,15 @@ import SwiftUI
 struct CaptureOverlayView: View {
     @EnvironmentObject var appModel: AppDataModel
     var session: ObjectCaptureSession
-
+    
     // This sample passes the binding from parent to allow this view
     // to control whether certain panels are shown in `CapturePrimaryView`.
     @Binding var showInfo: Bool
-
+    
     @State private var hasDetectionFailed = false
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @State private var deviceOrientation: UIDeviceOrientation = UIDevice.current.orientation
-
+    
     var body: some View {
         VStack(spacing: 20) {
             HStack {
@@ -34,9 +34,9 @@ struct CaptureOverlayView: View {
                     .disabled(!shouldShowNextButton)
             }
             .foregroundColor(.white)
-
+            
             Spacer()
-
+            
             if shouldShowTutorial, let url = Bundle.main.url(
                 forResource: appModel.orbit.feedbackVideoName(
                     for: UIDevice.current.userInterfaceIdiom,
@@ -44,12 +44,12 @@ struct CaptureOverlayView: View {
                 withExtension: "mp4") {
                 TutorialVideoView(url: url, isInReviewSheet: false)
                     .frame(maxHeight: horizontalSizeClass == .regular ? 350 : 280)
-
+                
                 Spacer()
             } else if !capturingStarted {
                 BoundingBoxGuidanceView(session: session, hasDetectionFailed: hasDetectionFailed)
             }
-
+            
             HStack(alignment: .bottom, spacing: 0) {
                 HStack(spacing: 0) {
                     if case .capturing = session.state {
@@ -63,19 +63,19 @@ struct CaptureOverlayView: View {
                         FilesButton()
                             .transition(.opacity)
                     }
-
+                    
                     Spacer()
                 }
                 .frame(maxWidth: .infinity)
-
+                
                 if !capturingStarted {
                     CaptureButton(session: session, isObjectFlipped: appModel.isObjectFlipped, hasDetectionFailed: $hasDetectionFailed)
                         .layoutPriority(1)
                 }
-
+                
                 HStack {
                     Spacer()
-
+                    
                     if !capturingStarted {
                         HelpButton(showInfo: $showInfo)
                             .transition(.opacity)
@@ -99,32 +99,32 @@ struct CaptureOverlayView: View {
                     Rectangle()
                         .frame(height: 130)
                         .hidden()
-
-//                    FeedbackView(messageList: appModel.messageList)
-//                        .layoutPriority(1)
+                    
+                    //                    FeedbackView(messageList: appModel.messageList)
+                    //                        .layoutPriority(1)
                 }
                 .rotationEffect(rotationAngle)
             }
         }
         .task {
             for await _ in NotificationCenter.default.notifications(named:
-                    UIDevice.orientationDidChangeNotification).map({ $0.name }) {
+                                                                        UIDevice.orientationDidChangeNotification).map({ $0.name }) {
                 withAnimation {
                     deviceOrientation = UIDevice.current.orientation
                 }
             }
         }
     }
-
+    
     private var capturingStarted: Bool {
         switch session.state {
-            case .initializing, .ready, .detecting:
-                return false
-            default:
-                return true
+        case .initializing, .ready, .detecting:
+            return false
+        default:
+            return true
         }
     }
-
+    
     private var shouldShowTutorial: Bool {
         if appModel.orbitState == .initial,
            case .capturing = session.state,
@@ -133,25 +133,25 @@ struct CaptureOverlayView: View {
         }
         return false
     }
-
+    
     private var shouldShowNextButton: Bool {
         capturingStarted && !shouldShowTutorial
     }
-
+    
     private var shouldDisableCancelButton: Bool {
         shouldShowTutorial || session.state == .ready || session.state == .initializing
     }
-
+    
     private var rotationAngle: Angle {
         switch deviceOrientation {
-            case .landscapeLeft:
-                return Angle(degrees: 90)
-            case .landscapeRight:
-                return Angle(degrees: -90)
-            case .portraitUpsideDown:
-                return Angle(degrees: 180)
-            default:
-                return Angle(degrees: 0)
+        case .landscapeLeft:
+            return Angle(degrees: 90)
+        case .landscapeRight:
+            return Angle(degrees: -90)
+        case .portraitUpsideDown:
+            return Angle(degrees: 180)
+        default:
+            return Angle(degrees: 0)
         }
     }
 }
@@ -161,9 +161,9 @@ struct CaptureOverlayView: View {
 private struct BoundingBoxGuidanceView: View {
     var session: ObjectCaptureSession
     var hasDetectionFailed: Bool
-
+    
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
-
+    
     var body: some View {
         HStack {
             if let guidanceText = guidanceText {
@@ -177,7 +177,7 @@ private struct BoundingBoxGuidanceView: View {
             }
         }
     }
-
+    
     private var guidanceText: String? {
         if case .ready = session.state {
             if hasDetectionFailed {

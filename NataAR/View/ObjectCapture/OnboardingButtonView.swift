@@ -1,9 +1,9 @@
 /*
-See the LICENSE.txt file for this sample’s licensing information.
-
-Abstract:
-The buttons on the review screen.
-*/
+ See the LICENSE.txt file for this sample’s licensing information.
+ 
+ Abstract:
+ The buttons on the review screen.
+ */
 
 import RealityKit
 import SwiftUI
@@ -18,16 +18,16 @@ struct OnboardingButtonView: View {
     @ObservedObject var onboardingStateMachine: OnboardingStateMachine
     @State private var userHasIndicatedObjectCannotBeFlipped: Bool? = nil
     @State private var userHasIndicatedFlipObjectAnyway: Bool? = nil
-
+    
     var body: some View {
         VStack {
             HStack {
                 CancelButton(buttonLabel: LocalizedString.cancel)
                 Spacer()
             }
-
+            
             Spacer()
-
+            
             VStack(spacing: 0) {
                 let currentStateInputs = onboardingStateMachine.currentStateInputs()
                 if currentStateInputs.contains(where: { $0 == .continue(isFlippable: false) || $0 == .continue(isFlippable: true) }) {
@@ -76,27 +76,27 @@ struct OnboardingButtonView: View {
             .padding(.bottom)
         }
     }
-
+    
     private func reloadData() {
         switch onboardingStateMachine.currentState {
-            case .firstSegment, .dismiss:
-                appModel.setPreviewModelState(shown: false)
-            case .secondSegment, .thirdSegment, .additionalOrbitOnCurrentSegment:
-                beginNewOrbitOrSection()
-            default:
-                break
+        case .firstSegment, .dismiss:
+            appModel.setPreviewModelState(shown: false)
+        case .secondSegment, .thirdSegment, .additionalOrbitOnCurrentSegment:
+            beginNewOrbitOrSection()
+        default:
+            break
         }
     }
-
+    
     private func beginNewOrbitOrSection() {
         if let userHasIndicatedObjectCannotBeFlipped = userHasIndicatedObjectCannotBeFlipped {
             appModel.hasIndicatedObjectCannotBeFlipped = userHasIndicatedObjectCannotBeFlipped
         }
-
+        
         if let userHasIndicatedFlipObjectAnyway = userHasIndicatedFlipObjectAnyway {
             appModel.hasIndicatedFlipObjectAnyway = userHasIndicatedFlipObjectAnyway
         }
-
+        
         if !appModel.isObjectFlippable && !appModel.hasIndicatedFlipObjectAnyway {
             session.beginNewScanPass()
         } else {
@@ -107,7 +107,7 @@ struct OnboardingButtonView: View {
         appModel.orbitState = .initial
         appModel.orbit = appModel.orbit.next()
     }
-
+    
     private func transition(with input: OnboardingUserInput) {
         guard onboardingStateMachine.enter(input) else {
             CreateButton.logger.log("Could not move to new state in User Guide state machine")
@@ -121,7 +121,7 @@ struct OnboardingButtonView: View {
 private struct CreateButton: View {
     static let logger = Logger(subsystem: NataAR.subsystem,
                                category: "OnboardingButtonView")
-
+    
     @EnvironmentObject var appModel: AppDataModel
     let buttonLabel: String
     var buttonLabelColor: Color = Color.white
@@ -129,9 +129,9 @@ private struct CreateButton: View {
     var shouldApplyBackground = false
     var showBusyIndicator = false
     let action: () -> Void
-
+    
     @Environment(\.colorScheme) private var colorScheme
-
+    
     var body: some View {
         Button(
             action: {
@@ -180,10 +180,10 @@ extension View {
 private struct CancelButton: View {
     static let logger = Logger(subsystem: NataAR.subsystem,
                                category: "CancelButton")
-
+    
     @EnvironmentObject var appModel: AppDataModel
     let buttonLabel: String
-
+    
     var body: some View {
         Button(
             action: {

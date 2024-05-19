@@ -9,7 +9,7 @@ import SwiftUI
 
 @main
 struct NataAR: App {
-
+    
     static let subsystem: String = "com.idreal88.NataAR"
     // MARK: - Properties
     @StateObject private var manager: DataManager = DataManager()

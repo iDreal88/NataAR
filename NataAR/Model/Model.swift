@@ -10,9 +10,9 @@ import RealityKit
 import Combine
 
 class Model {
-
+    
     // MARK: - Properties
-
+    
     static let modelNames = [
         "biplane",
         "drummer",
@@ -24,7 +24,7 @@ class Model {
         "wateringcan",
         "wheelbarrow"
     ]
-
+    
     var id = UUID().uuidString
     var modelName: String
     var image: UIImage?
@@ -35,18 +35,18 @@ class Model {
     var usdzURL: URL?
     var defaultMaterials: [RealityKit.Material] = []
     var isImported: Bool = false
-
+    
     private var cancellable: AnyCancellable? = nil
-
+    
     // MARK: - Lifecycle
-
+    
     init(modelName: String, usdzData: Data = Data()) {
         self.modelName = modelName
         self.image = UIImage(named: modelName)
         self.isMetallic = false
         self.color = Color.white
         self.usdzData = usdzData
-         
+        
         if(usdzData.count != 0){
             let temporaryDirectory = FileManager.default.temporaryDirectory
             let usdzFileURL = temporaryDirectory.appendingPathComponent(self.modelName + ".usdz")
@@ -70,9 +70,9 @@ class Model {
                         self.defaultMaterials = modelEntity.model?.materials ?? []
                         self.modelEntity?.name = self.id
                     })
-                } catch {
-                    print("Error writing USDZ data to temporary file:", error)
-                }
+            } catch {
+                print("Error writing USDZ data to temporary file:", error)
+            }
         }
         else{
             self.usdzURL = Bundle.main.url(forResource: modelName, withExtension: "usdz")!
@@ -90,7 +90,7 @@ class Model {
                     print("Successfully loaded modelEntity for: \(modelName)")
                 }
         }
-
+        
     }
 }
 

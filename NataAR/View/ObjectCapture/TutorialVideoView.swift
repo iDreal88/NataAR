@@ -1,9 +1,9 @@
 /*
-See the LICENSE.txt file for this sample’s licensing information.
-
-Abstract:
-The view that plays the tutorial.
-*/
+ See the LICENSE.txt file for this sample’s licensing information.
+ 
+ Abstract:
+ The view that plays the tutorial.
+ */
 
 import SwiftUI
 
@@ -12,11 +12,11 @@ struct TutorialVideoView: View {
     let url: URL
     let isInReviewSheet: Bool
     @State var isShowing = false
-
+    
     private let textDelay: TimeInterval = 0.3
     private let animationDuration: TimeInterval = 4
     @Environment(\.colorScheme) private var colorScheme
-
+    
     var body: some View {
         VStack(spacing: 0) {
             PlayerView(

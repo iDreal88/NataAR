@@ -31,7 +31,7 @@ struct ARViewRepresentable: UIViewRepresentable {
     
     func updateUIView(_ uiView: ARView, context: Context) {
         if((removeModel) != nil){
-            uiView.scene.findEntity(named: removeModel!.modelName)?.removeFromParent()
+            uiView.scene.findEntity(named: removeModel!.id)?.removeFromParent()
             DispatchQueue.main.async {
                 removeModel = nil
                 selectedObject =  Model(modelName: "")

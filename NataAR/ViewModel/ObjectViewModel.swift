@@ -42,7 +42,6 @@ class ObjectViewModel: UIViewController, ObservableObject, UIDocumentPickerDeleg
     }
     
     func saveUSDZFileToCoreData(fileURL: URL) {
-        let dataManager = DataManager()
         let context = manager!.container.viewContext
         do {
             let usdzData = try Data(contentsOf: fileURL)
@@ -59,7 +58,7 @@ class ObjectViewModel: UIViewController, ObservableObject, UIDocumentPickerDeleg
                 let objectEntity = ObjectEntity(context: context)
                 objectEntity.importedName = fileURL.deletingPathExtension().lastPathComponent
                 objectEntity.importedObject = usdzData
-
+                
                 do {
                     try context.save()
                     print("USDZ data and file name saved to Core Data.")
@@ -71,19 +70,4 @@ class ObjectViewModel: UIViewController, ObservableObject, UIDocumentPickerDeleg
             print("Error reading USDZ file: \(error.localizedDescription)")
         }
     }
-
-
-//    func createSceneKitView(data: Data) -> ThumbnailView {
-//            return ThumbnailView(usdzData: data)
-//        }
-    
-//    func deleteProject(viewContext: NSManagedObjectContext, object: ObjectEntity) {
-//        viewContext.delete(object)
-//        
-//        do {
-//            try viewContext.save()
-//        } catch {
-//            print("Error deleting project: \(error)")
-//        }
-//    }
 }

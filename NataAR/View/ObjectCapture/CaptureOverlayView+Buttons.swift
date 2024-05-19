@@ -1,9 +1,9 @@
 /*
-See the LICENSE.txt file for this sample’s licensing information.
-
-Abstract:
-The buttons for the full-screen overlay UI that control the capture.
-*/
+ See the LICENSE.txt file for this sample’s licensing information.
+ 
+ Abstract:
+ The buttons for the full-screen overlay UI that control the capture.
+ */
 
 import SwiftUI
 import RealityKit
@@ -13,14 +13,14 @@ import os
 extension CaptureOverlayView {
     static let logger = Logger(subsystem: NataAR.subsystem,
                                category: "CaptureOverlayView+Buttons")
-
+    
     @available(iOS 17.0, *)
     @MainActor
     struct CaptureButton: View {
         var session: ObjectCaptureSession
         var isObjectFlipped: Bool
         @Binding var hasDetectionFailed: Bool
-
+        
         var body: some View {
             Button(
                 action: {
@@ -37,7 +37,7 @@ extension CaptureOverlayView {
                         .clipShape(Capsule())
                 })
         }
-
+        
         private var buttonlabel: String {
             if case .ready = session.state {
                 return LocalizedString.continue
@@ -49,7 +49,7 @@ extension CaptureOverlayView {
                 }
             }
         }
-
+        
         private func performAction() {
             if case .ready = session.state {
                 logger.debug("here")
@@ -59,11 +59,11 @@ extension CaptureOverlayView {
             }
         }
     }
-
+    
     @available(iOS 17.0, *)
     struct ResetBoundingBoxButton: View {
         var session: ObjectCaptureSession
-
+        
         var body: some View {
             Button(
                 action: { session.resetDetection() },
@@ -73,7 +73,7 @@ extension CaptureOverlayView {
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 30)
-
+                        
                         Text(LocalizedString.resetBox)
                             .font(.footnote)
                             .opacity(0.7)
@@ -83,11 +83,11 @@ extension CaptureOverlayView {
                 })
         }
     }
-
+    
     @available(iOS 17.0, *)
     struct NextButton: View {
         @EnvironmentObject var appModel: AppDataModel
-
+        
         var body: some View {
             Button(action: {
                 logger.log("\(LocalizedString.next) button clicked!")
@@ -99,11 +99,11 @@ extension CaptureOverlayView {
             })
         }
     }
-
+    
     @available(iOS 17.0, *)
     struct ManualShotButton: View {
         var session: ObjectCaptureSession
-
+        
         var body: some View {
             Button(
                 action: {
@@ -124,26 +124,26 @@ extension CaptureOverlayView {
             .disabled(!session.canRequestImageCapture)
         }
     }
-
+    
     struct DocumentBrowser: UIViewControllerRepresentable {
         let startingDir: URL
-
+        
         func makeUIViewController(context: UIViewControllerRepresentableContext<DocumentBrowser>) -> UIDocumentPickerViewController {
             let controller = UIDocumentPickerViewController(forOpeningContentTypes: [UTType.item])
             controller.directoryURL = startingDir
             return controller
         }
-
+        
         func updateUIViewController(
             _ uiViewController: UIDocumentPickerViewController,
             context: UIViewControllerRepresentableContext<DocumentBrowser>) {}
     }
-
+    
     @available(iOS 17.0, *)
     struct FilesButton: View {
         @EnvironmentObject var appModel: AppDataModel
         @State private var showDocumentBrowser = false
-
+        
         var body: some View {
             Button(
                 action: {
@@ -164,11 +164,11 @@ extension CaptureOverlayView {
                    content: { DocumentBrowser(startingDir: appModel.scanFolderManager.rootScanFolder) })
         }
     }
-
+    
     struct HelpButton: View {
         // This sample passes this binding in from the parent to allow the button to stop showing the panel.
         @Binding var showInfo: Bool
-
+        
         var body: some View {
             Button(action: {
                 logger.log("\(LocalizedString.help) button clicked!")
@@ -181,7 +181,7 @@ extension CaptureOverlayView {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 22)
-
+                    
                     Text(LocalizedString.help)
                         .font(.footnote)
                         .opacity(0.7)
@@ -191,11 +191,11 @@ extension CaptureOverlayView {
             })
         }
     }
-
+    
     @available(iOS 17.0, *)
     struct CancelButton: View {
         @EnvironmentObject var appModel: AppDataModel
-
+        
         var body: some View {
             Button(action: {
                 logger.log("\(LocalizedString.cancel) button clicked!")
@@ -206,15 +206,15 @@ extension CaptureOverlayView {
             })
         }
     }
-
+    
     @available(iOS 17.0, *)
     struct NumOfImagesButton: View {
         var session: ObjectCaptureSession
-
+        
         var body: some View {
             VStack(spacing: 8) {
                 Text(Image(systemName: "photo"))
-
+                
                 Text(String(format: LocalizedString.numOfImages,
                             session.numberOfShotsTaken,
                             session.maximumNumberOfInputImages))
@@ -226,7 +226,7 @@ extension CaptureOverlayView {
             .foregroundColor(session.feedback.contains(.overCapturing) ? .red : .white)
         }
     }
-
+    
     struct VisualEffectRoundedCorner: ViewModifier {
         func body(content: Content) -> some View {
             content
@@ -240,7 +240,7 @@ extension CaptureOverlayView {
                 .multilineTextAlignment(.center)
         }
     }
-
+    
     struct VisualEffectView: UIViewRepresentable {
         var effect: UIVisualEffect?
         func makeUIView(context: UIViewRepresentableContext<Self>) -> UIVisualEffectView { UIVisualEffectView() }

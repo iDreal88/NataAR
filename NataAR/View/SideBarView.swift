@@ -121,29 +121,32 @@ struct SideBarView: View {
                             ScrollView(.vertical, showsIndicators: false) {
                                 if(selectedObject.modelName != ""){
                                     
-                                        ColorPicker("Color", selection: $objectColorView)
-                                            .padding()
-                                            .onChange(of: objectColorView) { oldValue, newValue in
-                                                objectColor = objectColorView
-                                                for index in 0..<showedObjects.count {
-                                                    if(showedObjects[index] == selectedObject){
-                                                        showedObjects[index].color = newValue
-                                                    }
+                                    ColorPicker("Color", selection: $objectColorView)
+                                        .padding()
+                                        .onChange(of: objectColorView) { oldValue, newValue in
+                                            objectColor = objectColorView
+                                            for index in 0..<showedObjects.count {
+                                                if(showedObjects[index] == selectedObject){
+                                                    showedObjects[index].color = newValue
                                                 }
                                             }
-                                        
-                                        
-                                        Button(action: {
-                                            isResetMaterials = true
-                                            selectedObject.color = Color.clear
-                                        }) {
-                                            Text("Reset Color")
-                                                .padding()
-                                                .background(Color.blue)
-                                                .foregroundColor(.white)
                                         }
-                                        .cornerRadius(10)
-                                        .buttonStyle(PlainButtonStyle())
+                                    
+                                    
+                                    Button(action: {
+                                        isResetMaterials = true
+                                        selectedObject.color = Color.clear
+                                    }) {
+                                        Text("Reset Color")
+                                            .padding()
+                                            .background(Color.red)
+                                            .foregroundColor(.white)
+                                    }
+                                    .cornerRadius(10)
+                                    .buttonStyle(PlainButtonStyle())
+                                    
+                                    Divider()
+                                        .padding(.top, 10)
                                     
                                     Toggle(isOn: $isMetallic) {
                                         Text("Lighting")
@@ -157,6 +160,8 @@ struct SideBarView: View {
                                     }
                                     .padding()
                                     
+                                    Divider()
+                                        .padding(.bottom, 10)
                                     
                                     Button(action: {
                                         exportObject.saveSceneAsUSDZ(with: selectedObject) { result in
