@@ -40,7 +40,9 @@ struct ARViewRepresentable: UIViewRepresentable {
         if shouldRemoveAllModels {
             uiView.scene.anchors.forEach { anchor in
                 anchor.children.forEach { entity in
-                    entity.removeFromParent()
+                    if(entity.children.first?.name != "s0"){
+                        entity.removeFromParent()
+                    }
                 }
             }
             DispatchQueue.main.async {
